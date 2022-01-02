@@ -1,6 +1,3 @@
-Getting and Cleaning Data - Course Project
-==========================================
-
 # Modifications
 
 ## the original data was modifies by
@@ -15,7 +12,6 @@ Getting and Cleaning Data - Course Project
 # Descriptions
 
 ## Identififiers
-The first two columns - Subject and Activity - are Identifiers.
 * Subject: the ID of the Subject
 * Activity: the Name of the Activity performed by the subject when measurements were taken
 
