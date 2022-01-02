@@ -6,6 +6,7 @@ rawDataUrl = "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI
 rawDataFilename = "rawData.zip"
 rawDataDFn = paste(rawDataDir, "/", rawDataFilename, sep = "")
 dataDir = "./Data"
+path_rf <- file.path(dataDir , "UCI HAR Dataset")
 
 if (!file.exists(rawDataDir)) {
   dir.create(rawDataDir)
@@ -16,8 +17,6 @@ if (!file.exists(dataDir)) {
   unzip(zipfile = rawDataDFn, exdir = dataDir)
 }
 
-# Merge data
-path_rf <- file.path(dataDir , "UCI HAR Dataset")
 # train data
 x_train = read.table(file.path(path_rf, "train" , "X_train.txt" ),header = FALSE)
 y_train = read.table(file.path(path_rf, "train" , "Y_train.txt" ),header = FALSE)
@@ -34,8 +33,7 @@ y_data = rbind(y_train, y_test)
 s_data = rbind(s_train, s_test)
 
 
-# Load information
-
+# load information
 feature = read.table(file.path(path_rf, "features.txt" ),header = FALSE)
 
 a_label = read.table(file.path(path_rf, "activity_labels.txt" ),header = FALSE)
@@ -49,15 +47,15 @@ colNames = gsub("[-()]", "", colNames)
 
 # Merge
 x_data = x_data[selectedCols]
-all_Data = cbind(s_data, y_data, x_data)
-colnames(all_Data) = c("Subject", "Activity", colNames)
+all_data = cbind(s_data, y_data, x_data)
+colnames(all_data) = c("Subject", "Activity", colNames)
 
-all_Data$Activity = factor(all_Data$Activity, levels = a_label[,1], labels = a_label[,2])
-all_Data$Subject = as.factor(all_Data$Subject)
+all_data$Activity = factor(all_data$Activity, levels = a_label[,1], labels = a_label[,2])
+all_data$Subject = as.factor(all_data$Subject)
 
 # Write tidy data
-melted_Data = melt(all_Data, id = c("Subject", "Activity"))
-tidy_Data = dcast(melted_Data, Subject + Activity ~ variable, mean)
+melted_data = melt(all_data, id = c("Subject", "Activity"))
+tidy_data = dcast(melted_data, Subject + Activity ~ variable, mean)
 
-write.table(tidy_Data, "./tidy_dataset.txt", row.names = FALSE, quote = FALSE)
+write.table(tidy_data, "./tidy_dataset.txt", row.names = FALSE)
 
